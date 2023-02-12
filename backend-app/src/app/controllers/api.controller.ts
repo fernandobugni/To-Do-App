@@ -1,10 +1,19 @@
 import {
+  ApiInfo,
+  ApiServer,
   Context, Delete, Get, HttpResponseCreated, HttpResponseNoContent,
   HttpResponseNotFound, HttpResponseOK, Post, ValidateBody, ValidatePathParam
 } from '@foal/core';
 
 import { Todo } from '../entities';
 
+@ApiInfo({
+  title: 'Application API',
+  version: '1.0.0'
+})
+@ApiServer({
+  url: '/api'
+})
 export class ApiController {
 
   @Get('/todos')
