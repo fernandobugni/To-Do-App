@@ -1,6 +1,7 @@
 {
   "database": {
-    "database": "./test_db.sqlite3",
+    "type": "better-sqlite3",
+    "database": "../test_db.sqlite3",
     "dropSchema": true,
     "synchronize": true
   }
