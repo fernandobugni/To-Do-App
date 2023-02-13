@@ -1,4 +1,5 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Todo } from './todo.entity';
 
 @Entity()
 export class User extends BaseEntity {

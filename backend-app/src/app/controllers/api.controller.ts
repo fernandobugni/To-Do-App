@@ -78,4 +78,17 @@ export class ApiController {
     return new HttpResponseNoContent();
   }
 
+  @Get('/adminPanel')
+  async getAdminPanel() {
+    let users = await User.find();
+    return new HttpResponseOK(users);
+  }
+
+  @Get('/adminPanel/users/:userid/tasks')
+  @ValidatePathParam('userid', { type: 'number' })
+  async getUsersTasks( ctx: Context) {
+    const userid = ctx.request.params.userid;
+    const tasks = await Todo.findBy({ author: { id: userid}});
+    return new HttpResponseOK(tasks);
+  }
 }
