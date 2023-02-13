@@ -25,7 +25,6 @@ export class ApiController {
     controller('/auth', AuthController)
   ];
 
-
   @Get('/todos')
   async getTodos() {
     const todos = await Todo.find();
@@ -76,6 +75,20 @@ export class ApiController {
 
     // Returns an successful empty response. The status is 204.
     return new HttpResponseNoContent();
+  }
+
+
+  @Post('/users/setClickedInTranslate/:userid/')
+  @ValidatePathParam('userid', { type: 'number' })
+  async setClickedInTranslate( ctx: Context) {
+    const userid = ctx.request.params.userid;
+    const user = await User.findOneBy({id: userid});
+    if (user == null)
+      return new HttpResponseOK();
+
+    user.clickedInTranslate = true;
+    user.save();
+    return new HttpResponseOK();
   }
 
   @Get('/adminPanel')
