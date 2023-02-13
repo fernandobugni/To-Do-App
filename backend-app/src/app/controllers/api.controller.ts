@@ -2,10 +2,12 @@ import {
   ApiInfo,
   ApiServer,
   Context, Delete, Get, HttpResponseCreated, HttpResponseNoContent,
-  HttpResponseNotFound, HttpResponseOK, Post, ValidateBody, ValidatePathParam
+  HttpResponseNotFound, HttpResponseOK, Post, UseSessions, UserRequired, ValidateBody, ValidatePathParam
 } from '@foal/core';
 
-import { Todo } from '../entities';
+import { Todo, User } from '../entities';
+import { controller } from '@foal/core';
+import { AuthController } from './api';
 
 @ApiInfo({
   title: 'Application API',
@@ -14,7 +16,15 @@ import { Todo } from '../entities';
 @ApiServer({
   url: '/api'
 })
+@UseSessions({
+  cookie: true,
+  user: (id: number) => User.findOneBy({ id }),
+})
 export class ApiController {
+  subControllers = [
+    controller('/auth', AuthController)
+  ];
+
 
   @Get('/todos')
   async getTodos() {
@@ -36,10 +46,12 @@ export class ApiController {
     // The body request should be an object once parsed by the framework.
     type: 'object',
   })
-  async postTodo(ctx: Context) {
+  @UserRequired()
+  async postTodo(ctx: Context<User>) {
     // Create a new todo with the body of the HTTP request.
     const todo = new Todo();
     todo.text = ctx.request.body.text;
+    todo.author = ctx.user;
 
     // Save the todo in the database.
     await todo.save();
@@ -50,9 +62,9 @@ export class ApiController {
 
   @Delete('/todos/:id')
   @ValidatePathParam('id', { type: 'number' })
-  async deleteTodo(ctx: Context) {
+  async deleteTodo(ctx: Context<User>, { id }: {id: number}) {
     // Get the todo with the id given in the URL if it exists.
-    const todo = await Todo.findOneBy({ id: ctx.request.params.id });
+    const todo = await Todo.findOneBy({ id: id, author: {id: ctx.user.id} });
 
     // Return a 404 Not Found response if no such todo exists.
     if (!todo) {
