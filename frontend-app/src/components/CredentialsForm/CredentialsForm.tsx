@@ -48,13 +48,6 @@ export function CredentialsForm(props: CredentialsFormProps) {
           <input type="submit" value={word} className={`${styles.btn} btn btnPrimary`} />
         </div>
       </form>
-      <div className={styles.separator}>
-      </div>
-      <div>
-        <form action="/api/auth/google" method="get">
-          <input type="submit" value={`${word} with Google`} className={`${styles.btn} btn`} />
-        </form>
-      </div>
     </div>
   )
 }

@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { ErrorBox, Story } from "../../components";
-import { IStory } from "../../interfaces";
-import { fetchStories } from "../../requests";
+import { ErrorBox, Todo } from "../../components";
+import { ITodo } from "../../interfaces";
+import { fetchTodos } from "../../requests";
 import styles from './Feed.module.css';
 
 export function Feed() {
-  const [storiesLoaded, setStoriesLoaded] = useState(false);
-  const [stories, setStories] = useState<IStory[]>([]);
+  const [TodosLoaded, setTodosLoaded] = useState(false);
+  const [todos, setTodos] = useState<ITodo[]>([]);
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    if (!storiesLoaded) {
-      fetchStories()
-        .then(stories => {
-          setStories(stories);
-          setStoriesLoaded(true);
+    if (!TodosLoaded) {
+      fetchTodos()
+        .then(todos => {
+          setTodos(todos);
+          setTodosLoaded(true);
         })
         .catch(err => {
           console.log(err);
@@ -28,7 +28,7 @@ export function Feed() {
       {
         error && <ErrorBox />
       }
-      {stories.map(story => <Story story={story} key={story.id} />)}
+      {todos.map(todo => <Todo todo={todo} key={todo.id} />)}
     </div>
   )
 }

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { ErrorBox, NewStory, Story } from "../../components";
-import { ProfileHeader } from "../../components/ProfileHeader";
-import { INewStory, IStory, IUser } from "../../interfaces";
-import { createStory, deleteStory, fetchStories, updateProfile } from "../../requests";
+import { ErrorBox, NewTodo, Todo } from "../../components";
+import { INewTodo, ITodo, IUser } from "../../interfaces";
+import { createTodo, deleteTodo, fetchTodos } from "../../requests";
 
 import styles from "./Profile.module.css";
 
@@ -12,16 +11,15 @@ interface ProfileProps {
 }
 
 export function Profile(props: ProfileProps) {
-  const [storiesLoaded, setStoriesLoaded] = useState(false);
-  const [stories, setStories] = useState<IStory[]>([]);
+  const [todosLoaded, settodosLoaded] = useState(false);
+  const [todos, settodos] = useState<ITodo[]>([]);
   const [error, setError] = useState(false);
-  const [avatarCacheId, setAvatarCacheId] = useState(Date.now());
 
-  function refreshStories() {
-    fetchStories(props.currentUser.id)
-      .then(stories => {
-        setStories(stories);
-        setStoriesLoaded(true);
+  function refreshtodos() {
+    fetchTodos(props.currentUser.id)
+      .then(todos => {
+        settodos(todos);
+        settodosLoaded(true);
       })
       .catch(err => {
         console.log(err);
@@ -30,15 +28,15 @@ export function Profile(props: ProfileProps) {
   }
 
   useEffect(() => {
-    if (!storiesLoaded) {
-      refreshStories();
+    if (!todosLoaded) {
+      refreshtodos();
     }
   })
 
-  async function createStoryAndRefresh(story: INewStory) {
+  async function createtodoAndRefresh(todo: INewTodo) {
     try {
-      await createStory(story);
-      await refreshStories();
+      await createTodo(todo);
+      await refreshtodos();
     } catch (error) {
       console.log(error);
       setError(true);
@@ -46,24 +44,10 @@ export function Profile(props: ProfileProps) {
   }
 
 
-  async function deleteStoryAndRefresh(story: IStory) {
+  async function deletetodoAndRefresh(todo: ITodo) {
     try {
-      await deleteStory(story.id);
-      await refreshStories();
-    } catch (error) {
-      console.log(error);
-      setError(true);
-    }
-  }
-
-  async function updateProfileAndRedirect(name: string, avatar: File|null) {
-    try {
-      await updateProfile(name, avatar);
-      setAvatarCacheId(Date.now());
-      props.onProfileChange({
-        ...props.currentUser,
-        name,
-      });
+      await deleteTodo(todo.id);
+      await refreshtodos();
     } catch (error) {
       console.log(error);
       setError(true);
@@ -75,12 +59,11 @@ export function Profile(props: ProfileProps) {
       {
         error && <ErrorBox />
       }
-      <ProfileHeader onUpdate={updateProfileAndRedirect} username={props.currentUser.name} avatarCacheId={avatarCacheId} />
       <div>
-        <h1>Your stories</h1>
-        {stories.map(story => <Story hideImage story={story} key={story.id} onDelete={() => deleteStoryAndRefresh(story)} />)}
+        <h1>Your todos</h1>
+        {todos.map(todo => <Todo todo={todo} key={todo.id} onDelete={() => deletetodoAndRefresh(todo)} />)}
       </div>
-      <NewStory onCreate={createStoryAndRefresh}/>
+      <NewTodo onCreate={createtodoAndRefresh}/>
     </div>
   );
 }

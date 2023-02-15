@@ -1,5 +1,5 @@
 export { CredentialsForm } from './CredentialsForm';
 export { ErrorBox } from './ErrorBox';
-export { Story } from './Story';
-export { NewStory } from './NewStory';
+export { Todo } from './Todo';
+export { NewTodo } from './NewTodo';
 export { Navbar } from './Navbar';

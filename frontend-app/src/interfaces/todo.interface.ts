@@ -1,7 +1,6 @@
-export interface IStory {
+export interface ITodo {
   id: number;
-  title: string;
-  link: string;
+  text: string;
   author: {
     id: number;
     name: string;
