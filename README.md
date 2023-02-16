@@ -80,10 +80,29 @@ Unfortunately, I'm not familiar with Angular so I couldn't code using it. I ende
 
 ![Webpage](/img/Captura%20desde%202023-02-14%2023-59-24.png "Webpage")
 
-All the buttons are functional except for the `Translate` button which is not finished due to a lack of time. But in theory, when a user clicks on `translate` button, the frontend has to send a ``POST`` HTTP request to a translation API and then return the respose. Then the application, in the background, has to store that this user has been using the translation in the database using `/users/setClickedInTranslate/` endpoint.
+All the buttons are functional except for the `Translate` button which is not finished due to a lack of time. But in theory, when a user clicks on `translate` button, the frontend has to send a ``POST`` HTTP request to a translation API and then return the response. Then the application, in the background, has to store that this user has been using the translation in the database using `/users/setClickedInTranslate/` endpoint.
 
 ## How to deploy in Google Cloud
-not put my credit card
+
+I tried to use a free account for Google Cloud but unfortunately, the signup form asks for a credit card, so I think that it is too much to put my credit card in to deploy a programming challenge. So instead, I'm going to explain how to do it here.
+
+First of all, we have to generate the Docker images for each artifact. To do this, we have to define the Docker files which are at the root of each project with the name `Dockerfile`. It contains how to precisely run the application in an image. Also, we have to expose the port to connect from outside the image. 
+
+After we can build the image, we have to push to a container registry using the following commands:
+
+```
+docker build --build-args -t [name of the image]
+
+docker push [name the container registry]
+```
+
+Now we have the image in the container registry. The second phase is to define a `yaml file` to describe a **Kubernetes configuration**. The idea is to build the image in a K8s cluster using this configuration. The most important thing is that they have to be type **Deployment** and that you need an **Ingress service** to connect from outside to the world. Otherwise, you are not going to reach the application.
+
+## Triggers
+Another interesting topic is to use triggers to optimize different tasks. For example, we can use **Google Cloud Build** to listen to a branch and when it detects a change, it builds an image automatically. Similar tasks are defined in **GitHub Actions** but it has predefined templates to run specific tasks. In my current job, we are starting using both but at a slow pace. We used to have **Jenkins** which is the same idea and was useful for the whole team.  
+
+Thanks for reading!
+
 
 
 
