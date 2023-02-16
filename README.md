@@ -12,10 +12,10 @@ Then run the following in the frontend-app folder
 
 # Content
 ## Why I chose FoalTS
-Considering that all is written in TypeScript and has many different features, such as ORM, deployment environments, CLI utilities and authentication, etc. I decided to use it.
+Considering that all is written in TypeScript and has many different high-quality features, such as ORM, deployment environments, CLI utilities and authentication, etc. I decided to use it.
 
 ## Why I divided the project into two parts
-The division consists of two parts of every website should have: the backend and frontend. And they have to deploy separately to decouple problems. For example, we can scale the API (backend) but not the frontend because mostly it is static. Also, it is beneficial for the division of tasks between teams
+The division consists of two parts of every website should have: the backend and frontend. And they have to deploy separately to decouple problems. For example, we can scale the API (backend) but not the frontend because mostly it is static. Also, it is beneficial for the division of tasks between teams.
 
 ## Database connection and ORM configuration
 To store the data, we need a PostgreSQL that is defined in the `backend-app/.env` file. As I mentioned, FoalTS uses an ORM and you can define scripts to interact with the database. For example, you can run `foal run create-todo text="Task 1"` and add a Task in the database.
@@ -30,6 +30,7 @@ The following is an image of the database
 
 ![Database](/img/Captura%20desde%202023-02-15%2021-58-30.png "Database")
 
+In this example, it is easy to access de data; but if you have to scale to millions of users you have to take care of the indexes of each table and how they are used. In general, I have to optimize such kinds of things. 
 
 ## Automated tests
 Testing could be run using the following command
@@ -73,7 +74,7 @@ There are some screenshots of how to use it:
 
 ## Frontend-app
 
-Unfortunately, I'm not familiar with Angular so I couldn't code using it. I ended up using React but I cannot finish all the screens. The following are some of them
+Unfortunately, I have never worked as a frontend developer, but I can figure out how to do it. I'm not familiar with Angular so I couldn't code using it. I ended up using React but I cannot finish all the screens. The following are some of them
 
 ![Webpage](/img/Captura%20desde%202023-02-14%2023-59-13.png "Webpage")
 
@@ -84,7 +85,7 @@ All the buttons are functional except for the `Translate` button which is not fi
 
 ## How to deploy in Google Cloud
 
-I tried to use a free account for Google Cloud but unfortunately, the signup form asks for a credit card, so I think that it is too much to put my credit card in to deploy a programming challenge. So instead, I'm going to explain how to do it here.
+I tried to use a free account for Google Cloud but unfortunately, the signup form asks for a credit card, so I think that it is too much to put my personal credit card in to deploy a programming challenge. So instead, I'm going to explain how to do it here.
 
 First of all, we have to generate the Docker images for each artifact. To do this, we have to define the Docker files which are at the root of each project with the name `Dockerfile`. It contains how to precisely run the application in an image. Also, we have to expose the port to connect from outside the image. 
 
@@ -92,14 +93,13 @@ After we can build the image, we have to push to a container registry using the 
 
 ```
 docker build --build-args -t [name of the image]
-
 docker push [name the container registry]
 ```
 
-Now we have the image in the container registry. The second phase is to define a `yaml file` to describe a **Kubernetes configuration**. The idea is to build the image in a K8s cluster using this configuration. The most important thing is that they have to be type **Deployment** and that you need an **Ingress service** to connect from outside to the world. Otherwise, you are not going to reach the application.
+Now we have the image in the container registry. The second phase is to define a `yaml file` to describe a **Kubernetes configuration**. The idea is to build the image in a K8s cluster using this configuration. The most important thing is that they have to be type **Deployment** and that you need an **Ingress service** to connect from outside to the world. Otherwise, you are not going to reach the application. Another important thing is to define a DNS to the public ip address for an easy connection for the users through the browser. 
 
 ## Triggers
-Another interesting topic is to use triggers to optimize different tasks. For example, we can use **Google Cloud Build** to listen to a branch and when it detects a change, it builds an image automatically. Similar tasks are defined in **GitHub Actions** but it has predefined templates to run specific tasks. In my current job, we are starting using both but at a slow pace. We used to have **Jenkins** which is the same idea and was useful for the whole team.  
+Another interesting topic is to use triggers to optimize different tasks. For example, we can use **Google Cloud Build** to listen to a branch and when it detects a change, it builds an image automatically. Similar tasks are defined in **GitHub Actions** but it has predefined templates to run specific tasks. In my current job, we are starting to use both but at a slow pace. We used to have **Jenkins** which is the same idea and was useful for the whole team.  
 
 Thanks for reading!
 
