@@ -44,21 +44,43 @@ I coded different endpoints to cover all the Use cases. All of them are function
 The endpoints are: 
 
 * **Sign up and login (`/auth/*`):**
+
 You can sign up as a new user and then login. Notice that if you are not logged in you cannot access the to-do list
 
 * **CURD To-Do (`/todos/*`):**
+
 To access the to-do list of every user. You must be logged in
 
 * **Save click in translate (`/users/setClickedInTranslate/...`)**
+
 The idea is to store if a user has clicked the button ´translate´, and use this endpoint to store the event.
 
 * **Normal UI**
-Using the endpoints of `/auth/*` and `/todos/*`, we can recreate ethe webpage for the users.
+
+Using the endpoints of `/auth/*` and `/todos/*`, we can recreate the webpage for the users.
 
 * **Admin UI**
+
 Using `/adminPanel/*` we can create the panel for the admin users. 
 
+There are some screenshots of how to use it:
+
+![Swagger](/img/Captura%20desde%202023-02-15%2000-00-42.png "Swagger")
+
+
+![Swagger](/img/Captura%20desde%202023-02-15%2000-00-11.png "Swagger")
+
+
 ## Frontend-app
+
+Unfortunately, I'm not familiar with Angular so I couldn't code using it. I ended up using React but I cannot finish all the screens. The following are some of them
+
+![Webpage](/img/Captura%20desde%202023-02-14%2023-59-13.png "Webpage")
+
+
+![Webpage](/img/Captura%20desde%202023-02-14%2023-59-24.png "Webpage")
+
+All the buttons are functional except for the `Translate` button which is not finished due to a lack of time. But in theory, when a user clicks on `translate` button, the frontend has to send a ``POST`` HTTP request to a translation API and then return the respose. Then the application, in the background, has to store that this user has been using the translation in the database using `/users/setClickedInTranslate/` endpoint.
 
 ## How to deploy in Google Cloud
 not put my credit card
