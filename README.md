@@ -43,19 +43,19 @@ I coded different endpoints to cover all the Use cases. All of them are function
 
 The endpoints are: 
 
-* Sign up and login (/auth/*):
+* **Sign up and login (`/auth/*`):**
 You can sign up as a new user and then login. Notice that if you are not logged in you cannot access the to-do list
 
-* CURD To-Do (/todos/*): 
+* **CURD To-Do (`/todos/*`):**
 To access the to-do list of every user. You must be logged in
 
-* Save click in translate (/users/setClickedInTranslate/...)
+* **Save click in translate (`/users/setClickedInTranslate/...`)**
 The idea is to store if a user has clicked the button ´translate´, and use this endpoint to store the event.
 
-* Normal UI
+* **Normal UI**
 Using the endpoints of `/auth/*` and `/todos/*`, we can recreate ethe webpage for the users.
 
-* Admin UI
+* **Admin UI**
 Using `/adminPanel/*` we can create the panel for the admin users. 
 
 ## Frontend-app
